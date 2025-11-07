@@ -8,4 +8,6 @@ router.get('/exclusao',funcionarioController.exclusao);
 router.get('/busca',funcionarioController.busca);
 router.get('/lista',funcionarioController.lista);
 
+router.post('/new',funcionarioController.createFuncionario);
+router.post('/delete',funcionarioController.deleteFuncionario);
 module.exports = router;

@@ -12,3 +12,27 @@ exports.lista = (req,res) => {
         res.render('funcionarios/lista',{funcionarios:results});
     });
 };
+
+// função que converte dd/MM/yyyy para yyyy-mm-dd
+function formatDateToMySQL(dateStr) {
+  if(!dateStr) return null;
+  const [dia,mes,ano] = dateStr.split('/');
+  return ano+'-'+mes.padStart(2,'0')+'-'+dia.padStart(2,'0');
+}
+
+exports.createFuncionario = (req,res) => {
+    req.body.dataAdmissao=formatDateToMySQL(req.body.dataAdmissao);
+    const{re,nome,dataAdmissao,salario} = req.body;
+    Funcionario.create({re,nome,dataAdmissao,salario}, err => {
+        if(err) return res.status(500).send('erro no cadastro');
+        res.redirect('/funcionarios');
+    });
+};
+
+exports.deleteFuncionario = (req,res) => {
+    const {re} = req.body;
+    Funcionario.delete(re, err=> {
+        if(err) return res.status(500).send('Erro na exclusão');
+        res.redirect('/funcionarios');        
+    });
+};
